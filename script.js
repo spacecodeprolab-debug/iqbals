@@ -65,10 +65,11 @@ document.addEventListener("click",function(e){var a=e.target.closest("a[href]");
 window.addEventListener("pageshow",function(){document.body.classList.remove("leave")});
 }
 $$(".hero").forEach(function(h){var mons=$$(".mon",h),cap=$(".skycap",h),i=-1,t;if(!mons.length||!cap)return;
-function cam(k){var sky=$(".sky",h);if(!sky)return;var vw=h.clientWidth,w=sky.getBoundingClientRect().width,px=(+mons[k].dataset.cx)*(w/1600),x=vw/2-px;x=Math.max(Math.min(0,vw-w),Math.min(0,x));if(w<=vw+2)x=0;sky.style.transform="translateX("+x+"px)"}
+function cam(k){var sky=$(".sky",h);if(!sky)return;var vw=h.clientWidth,w=sky.getBoundingClientRect().width,px=(+mons[k].dataset.cx)*(w/1800),x=vw/2-px;x=Math.max(Math.min(0,vw-w),Math.min(0,x));if(w<=vw+2)x=0;sky.style.transform="translateX("+x+"px)"}
 function show(k){i=k;cam(k);mons.forEach(function(m,x){m.classList.toggle("on",x===k)});cap.style.opacity=0;clearTimeout(t);t=setTimeout(function(){cap.textContent=mons[k].dataset.n;cap.style.opacity=1},220)}
 window.addEventListener("resize",function(){if(i>=0)cam(i)});
 mons.forEach(function(m,k){m.addEventListener("pointerenter",function(){show(k)});m.addEventListener("click",function(){show(k)})});
+var sk=$(".sky",h);if(sk&&!matchMedia("(prefers-reduced-motion:reduce)").matches)setTimeout(function(){sk.style.filter="url(#"+sk.dataset.rf+")"},7800);
 if(!matchMedia("(prefers-reduced-motion:reduce)").matches)setInterval(function(){if(document.hidden||!h.offsetParent||!document.body.classList.contains("ready"))return;show((i+1)%mons.length)},2800)});
 function lbx(t){var o=document.createElement("div");o.className="lb";o.setAttribute("role","dialog");o.setAttribute("aria-label",t.getAttribute("aria-label"));o.innerHTML=t.querySelector(".ga").outerHTML;function x(){o.remove();document.removeEventListener("keydown",k)}function k(e){if(e.key==="Escape")x()}o.addEventListener("click",x);document.addEventListener("keydown",k);document.body.appendChild(o)}
 $$(".gt").forEach(function(t){t.addEventListener("click",function(){lbx(t)});t.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();lbx(t)}})});
